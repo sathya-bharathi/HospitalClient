@@ -1,0 +1,76 @@
+﻿@model HospitalClient.Models.AppointmentBooking
+
+@{
+    ViewData["Title"] = "AppointmentSelectDoctor";
+}
+
+
+
+<h4>AppointmentBooking</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AppointmentSelectDoctor">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           @if(ViewBag.item==null)
+            {
+                <h1>Select Doctor</h1>
+                <hr />
+
+             <div class="form-group">
+                <label asp-for="DoctorName" class="control-label"></label>
+                                 <select asp-for="DoctorId" class ="form-control" asp-items="ViewBag.DoctorList">
+                                     <option style="color:black">Select Doctor </option> 
+
+                                 </select>
+             </div>
+             <div class="form-group">
+                <input type="submit"  value="Show Available Slots" class="btn btn-primary" />
+                      
+                </div>
+            }
+        else
+          {
+              <h2>Appointment Booking - Select Slot</h2>
+             <hr />   
+            <div class="form-group" hidden>
+                <label asp-for="AppointmentId" class="control-label"></label>
+                <input asp-for="AppointmentId" class="form-control" />
+                <span asp-validation-for="AppointmentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppointmentDate" class="control-label"></label>
+                <input asp-for="AppointmentDate" class="form-control" />
+                <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+            </div>
+            
+              
+              <div class="form-group">
+                <label asp-for="AppointmentTime" class="control-label"></label>
+                <select asp-for="AppointmentTime" class ="form-control" asp-items="ViewBag.item"></select>
+              </div>
+                
+           
+            <div class="form-group" hidden>
+                <label asp-for="DoctorId" class="control-label"></label>
+                <input asp-for="DoctorId" class="form-control" />
+                <span asp-validation-for="DoctorId" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group" hidden>
+                <label asp-for="PatientId" class="control-label"></label>
+                <input asp-for="PatientId" class="form-control" />
+                <span asp-validation-for="PatientId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Book Appointment" class="btn btn-primary" />
+            </div>
+          }
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
