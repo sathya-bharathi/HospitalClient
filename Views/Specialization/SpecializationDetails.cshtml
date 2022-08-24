@@ -1,0 +1,40 @@
+﻿@model IEnumerable<HospitalClient.Models.Specialization>
+
+@{
+    ViewData["Title"] = "SpecializationDetails";
+}
+
+<h1>Specialization Details</h1>
+
+<p>
+  <a asp-action="AddSpecialization"  class="btn btn-sm btn-primary rounded-0"><i class="fa fa-pencil"></i> Add </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecializationId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecializationName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpecializationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpecializationName)
+            </td>
+            <td>
+            <a asp-action="EditSpecialization" asp-route-SpecializationId="@item.SpecializationId" class="btn btn-sm btn-primary rounded-0"><i class="fa fa-pencil"></i> Edit </a>
+            <a asp-action="DeleteSpecialization" asp-route-SpecializationId="@item.SpecializationId" class="btn btn-sm btn-primary rounded-0"><i class="fa fa-pencil"></i> Delete </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

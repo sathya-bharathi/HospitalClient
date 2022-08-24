@@ -32,6 +32,30 @@ namespace HospitalClient.Controllers
                 return View(Specializationdetails);
             }
         }
+        public async Task<IActionResult> Specialities()
+
+        {
+            List<Specialization> Specializationdetails = new List<Specialization>();
+
+
+            using (var client = new HttpClient())
+            {
+
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage Res = await client.GetAsync("https://localhost:7094/api/Specialization/Specialization");
+
+                if (Res.IsSuccessStatusCode)
+                {
+                    var Response = Res.Content.ReadAsStringAsync().Result;
+
+                    Specializationdetails = JsonConvert.DeserializeObject<List<Specialization>>(Response);
+
+                }
+                return View(Specializationdetails);
+            }
+        }
         public IActionResult AddSpecialization()
         {
             return View();
