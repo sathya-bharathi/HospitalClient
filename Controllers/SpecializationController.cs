@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using HospitalClient.Models;
 using System.Text;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HospitalClient.Controllers
 {
@@ -90,6 +91,7 @@ namespace HospitalClient.Controllers
                     splobj = JsonConvert.DeserializeObject<Specialization>(apiResponse);
                 }
             }
+    
             return View(splobj);
         }
 

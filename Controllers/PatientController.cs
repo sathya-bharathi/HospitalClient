@@ -97,8 +97,6 @@ namespace HospitalClient.Controllers
         public async Task<IActionResult> AppointmentSelectDoctor(AppointmentBooking appointment)
         {
  
-
-
             if (appointment.AppointmentTime == null)
             {
                 DoctorRegistration doctor = new();
@@ -114,6 +112,7 @@ namespace HospitalClient.Controllers
                         doctor = JsonConvert.DeserializeObject<DoctorRegistration>(Response);
                     }
                 }
+                
                 HttpContext.Session.SetString("DoctorName", doctor.DoctorName);
                 HttpContext.Session.SetString("DoctorId", doctor.DoctorId);
 
@@ -143,11 +142,11 @@ namespace HospitalClient.Controllers
                     {
                         AvailableSlots.Add(timeinterval1.ToString("HH.mm") + " to " + endtime.ToString("HH.mm"));
                     }
-
+                    
                 }
-
-                List<SelectListItem> item = AvailableSlots.ConvertAll(a =>
-                {
+           
+                    List<SelectListItem> item = AvailableSlots.ConvertAll(a =>
+                  {
                     return new SelectListItem()
                     {
                         Text = a.ToString(),
@@ -156,7 +155,7 @@ namespace HospitalClient.Controllers
                         Selected = false,
 
                     };
-                });
+                  });
                 ViewBag.item = item;
                 
 
@@ -164,7 +163,7 @@ namespace HospitalClient.Controllers
             else
             {
                 // Step2 Completed -Appointment time selected
-              appointment.DoctorId = HttpContext.Session.GetString("DoctorId");
+                appointment.DoctorId = HttpContext.Session.GetString("DoctorId");
                 appointment.DoctorName = HttpContext.Session.GetString("DoctorName");
                 appointment.PatientId = HttpContext.Session.GetString("PatientId");
                 appointment.PatientName = HttpContext.Session.GetString("PatientName");
@@ -178,10 +177,11 @@ namespace HospitalClient.Controllers
                         appointment = JsonConvert.DeserializeObject<AppointmentBooking>(apiResponse);
                     }
                 }
+
                 #region EMAIL
-                var senderEmail = new MailAddress("librarymanagement13@gmail.com", "Admin-Grace Hospitals");
+                var senderEmail = new MailAddress("hospitalgrace1@gmail.com", "Admin-Grace Hospitals");
                 var receiverEmail = new MailAddress(appointment.PatientId, "Receiver");
-                var password = "kigksgbmzemtqrax";
+                var password = "dennxqcxrdmtoqeg";
                 var sub = " Appointment Details ";
                 var body = "Hello " + appointment.PatientName + "!  Your Appointment is confirmed.                The Appointment Details are: " + "                           " +
                     " Appointment Id: " + appointment.AppointmentId + "                                              Appointment Date: " + appointment.AppointmentDate
@@ -208,18 +208,74 @@ namespace HospitalClient.Controllers
                 }
                 #endregion
 
-
-
                 return RedirectToAction("Index", "Patient");
 
             }
 
             return View(appointment);
+        }
+        public async Task<IActionResult> AppointmentDetails()
+        {
 
-
-
+            string PatientId = HttpContext.Session.GetString("PatientId");
+            List<AppointmentBooking> AppointmentDetails = new();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(" https://localhost:7094/api/AppointmentBooking/PatientId?PatientId=" + PatientId))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    AppointmentDetails = JsonConvert.DeserializeObject<List<AppointmentBooking>>(apiResponse);
+                }
+            }
+            return View(AppointmentDetails);
+        }
+        public async Task<IActionResult> Details()
+        {
+           string PatientId = HttpContext.Session.GetString("PatientId");
+           PatientRegistration details = new();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:7094/api/Patient/PatientId?PatientId=" + PatientId))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    details = JsonConvert.DeserializeObject<PatientRegistration>(apiResponse);
+                }
+            }
+            return View(details);
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditPatient(string PatientId)
+        {
+            TempData["PatientId"] = PatientId;
+            PatientRegistration patient = new();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:7094/api/Patient/PatientId?PatientId=" + PatientId))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    patient = JsonConvert.DeserializeObject<PatientRegistration>(apiResponse);
+                }
+            }
+            return View(patient);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> EditPatient(PatientRegistration patient)
+        {
+            patient.PatientId = HttpContext.Session.GetString("PatientId");
+            PatientRegistration obj = new PatientRegistration();
+            using (var httpClient = new HttpClient())
+            {
+                string PatientId = patient.PatientId;
+                StringContent content = new StringContent(JsonConvert.SerializeObject(patient), Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PutAsync("https://localhost:7094/api/Patient/" + PatientId, content))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    obj = JsonConvert.DeserializeObject<PatientRegistration>(apiResponse);
+                }
+            }
+            return RedirectToAction("Details");
+        }
     }
 }
 

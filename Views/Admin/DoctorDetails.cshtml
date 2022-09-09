@@ -1,0 +1,100 @@
+﻿@model IEnumerable<HospitalClient.Models.DoctorRegistration>
+
+@{
+    ViewData["Title"] = "DoctorDetails";
+}
+
+<h1>DoctorDetails</h1>
+
+<p>
+    <button type="button"><a  asp-controller="Admin" asp-action="DoctorRegister">Add Doctor</a></button>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DoctorId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DoctorName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Qualification)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecializationId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecializationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Position)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th hidden>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th hidden>
+                @Html.DisplayNameFor(model => model.ConfirmPassword)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DoctorId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DoctorName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Qualification)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpecializationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Specialization.SpecializationName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Position)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.ConfirmPassword)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+            <a asp-action="EditDoctor" asp-route-DoctorId="@item.DoctorId" class="btn btn-sm btn-primary rounded-0"><i class="fa fa-pencil"></i> Edit </a>
+            <a asp-action="DeleteDoctor" asp-route-DoctorId="@item.DoctorId" class="btn btn-sm btn-primary rounded-0"><i class="fa fa-pencil"></i> Delete </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

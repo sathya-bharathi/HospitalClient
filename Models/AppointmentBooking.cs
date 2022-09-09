@@ -5,11 +5,8 @@ namespace HospitalClient.Models
 {
     public class AppointmentBooking
     {
-
-
         public int AppointmentId { get; set; }
         [DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString ="{0:dd-MMM-yyyy}",ApplyFormatInEditMode =true)]
         public DateTime? AppointmentDate { get; set; }
         public string? AppointmentTime { get; set; }
         public string? DoctorId { get; set; }
@@ -21,6 +18,8 @@ namespace HospitalClient.Models
          
         [NotMapped]
         public string? PatientName { get; set; }
+        public virtual DoctorRegistration? Doctor { get; set; }
+        public virtual PatientRegistration? Patient { get; set; }
 
     }
 }
