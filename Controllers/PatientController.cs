@@ -115,11 +115,8 @@ namespace HospitalClient.Controllers
                 
                 HttpContext.Session.SetString("DoctorName", doctor.DoctorName);
                 HttpContext.Session.SetString("DoctorId", doctor.DoctorId);
-
-
                 DateTime starttime = DateTime.ParseExact(doctor.StartTime, "HH.mm", null);
                 DateTime endtime = DateTime.ParseExact(doctor.EndTime, "HH.mm", null);
-
 
                 List<string> AvailableSlots = new();
 
@@ -142,10 +139,10 @@ namespace HospitalClient.Controllers
                     {
                         AvailableSlots.Add(timeinterval1.ToString("HH.mm") + " to " + endtime.ToString("HH.mm"));
                     }
-                    
+
                 }
-           
-                    List<SelectListItem> item = AvailableSlots.ConvertAll(a =>
+
+                List<SelectListItem> item = AvailableSlots.ConvertAll(a =>
                   {
                     return new SelectListItem()
                     {

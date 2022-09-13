@@ -79,6 +79,7 @@ namespace HospitalClient.Controllers
                     //doctor = JsonConvert.DeserializeObject<DoctorRegistration>(apiResponse);
                 }
             }
+
             #region EMAIL
             var senderEmail = new MailAddress("hospitalgrace1@gmail.com", "Admin-Grace Hospitals");
             var receiverEmail = new MailAddress(doctor.DoctorId, "Receiver");
@@ -104,6 +105,7 @@ namespace HospitalClient.Controllers
                 smtp.Send(mess);
             }
             #endregion
+
             return RedirectToAction("Index", "Admin");
         }
         public async Task<IActionResult> DoctorDetails()
