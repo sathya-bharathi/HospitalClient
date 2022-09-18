@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using OpenXmlPowerTools;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Mail;
@@ -141,9 +142,11 @@ namespace HospitalClient.Controllers
                     }
 
                 }
+                
+                
 
                 List<SelectListItem> item = AvailableSlots.ConvertAll(a =>
-                  {
+                    {
                     return new SelectListItem()
                     {
                         Text = a.ToString(),
@@ -153,6 +156,8 @@ namespace HospitalClient.Controllers
 
                     };
                   });
+
+
                 ViewBag.item = item;
                 
 
@@ -160,10 +165,31 @@ namespace HospitalClient.Controllers
             else
             {
                 // Step2 Completed -Appointment time selected
-                appointment.DoctorId = HttpContext.Session.GetString("DoctorId");
-                appointment.DoctorName = HttpContext.Session.GetString("DoctorName");
-                appointment.PatientId = HttpContext.Session.GetString("PatientId");
-                appointment.PatientName = HttpContext.Session.GetString("PatientName");
+                List<AppointmentBooking> AppointmentDetails = new List<AppointmentBooking>();
+                using (var client = new HttpClient())
+                {
+
+                    client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    HttpResponseMessage Res = await client.GetAsync("https://localhost:7094/api/AppointmentBooking/Details");
+
+                    if (Res.IsSuccessStatusCode)
+                    {
+                        var Response = Res.Content.ReadAsStringAsync().Result;
+
+                        AppointmentDetails = JsonConvert.DeserializeObject<List<AppointmentBooking>>(Response);
+
+                    }
+                }
+                if (AppointmentDetails.Any(x => appointment.AppointmentDate == x.AppointmentDate))
+                {
+                    if (AppointmentDetails.Any(x => appointment.AppointmentTime == x.AppointmentTime))
+                    {
+                        ViewBag.Message = "The slot is already booked!";
+                        return RedirectToAction("AppointmentSelectDoctor", "Patient");
+                    }
+                }
 
                 using (var httpClient = new HttpClient())
                 {
@@ -174,6 +200,11 @@ namespace HospitalClient.Controllers
                         appointment = JsonConvert.DeserializeObject<AppointmentBooking>(apiResponse);
                     }
                 }
+
+                appointment.DoctorId = HttpContext.Session.GetString("DoctorId");
+                appointment.DoctorName = HttpContext.Session.GetString("DoctorName");
+                appointment.PatientId = HttpContext.Session.GetString("PatientId");
+                appointment.PatientName = HttpContext.Session.GetString("PatientName");
 
                 #region EMAIL
                 var senderEmail = new MailAddress("hospitalgrace1@gmail.com", "Admin-Grace Hospitals");

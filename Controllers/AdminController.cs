@@ -24,7 +24,6 @@ namespace HospitalClient.Controllers
         public async Task<IActionResult> Login(Admin admin)
         {
             admin.Name = "";
-            
             using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(admin), Encoding.UTF8, "application/json");
@@ -37,14 +36,21 @@ namespace HospitalClient.Controllers
                 {
                     HttpContext.Session.SetString("Name", admin.Name);
                     HttpContext.Session.SetString("AdminId", admin.AdminId);
-
+                    TempData["Success"] = "Logged in!";
+                }
+                else
+                {
+                    TempData["Message"] = "Log in Failed! Please Check your Username and Password!";
+                    return RedirectToAction("Login","Admin");
                 }
             }
+
             return RedirectToAction("Index", "Admin");
         }
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
+            TempData["Success"] = "Logged out!";
             return RedirectToAction("Login", "Admin");
         }
         public async Task<IActionResult> DoctorRegister()
@@ -69,7 +75,8 @@ namespace HospitalClient.Controllers
         public async Task<IActionResult> DoctorRegister(DoctorRegistration doctor)
 
         {
-           
+            TempData["Mes"] = "Registered Successfully and Email has been Sent!";
+
             using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(doctor), Encoding.UTF8, "application/json");
@@ -105,6 +112,8 @@ namespace HospitalClient.Controllers
                 smtp.Send(mess);
             }
             #endregion
+
+
 
             return RedirectToAction("Index", "Admin");
         }

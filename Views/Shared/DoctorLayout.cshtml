@@ -1,11 +1,55 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewBag.DoctorName = @HttpContextAccessor.HttpContext.Session.GetString("DoctorName");
+    ViewBag.DoctorId = @HttpContextAccessor.HttpContext.Session.GetString("DoctorId");
+    <link rel="stylesheet" href="~/css/board.css">
+
+}
+
+
+
+<!DOCTYPE html>
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HospitalClient</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/HospitalClient.styles.css" asp-append-version="true" />
 </head>
 <body>
+    <header>
+         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-transparent  border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                 <a href="#" class="navbar-brand">
+  @*    <!-- Logo Image -->
+      <img src="https://cdn.dribbble.com/users/1672258/screenshots/16046016/media/cf21b329992a17d3f54b04bac6d60a5d.png?compress=1&resize=1000x750&vertical=top" width="45" alt="Grace Hospital" class="d-inline-block align-middle mr-2">
+      <!-- Logo Text -->*@
+      <span class="text-uppercase font-weight-bold">Grace Hospital</span>
+    </a>
+                
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><b>Welcome @ViewBag.DoctorName !</b></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-sm-end">
+                    
+                </div>
+            </div>
+            <ul class="navbar-nav flex-grow-1">
+
+                        </li >                   
+                            <a class="nav-link  text-dark" asp-area="" asp-controller="Doctor" asp-action="logout" style="float:left">Logout</a>
+                        </li>
+        
+ 
+                    </ul>
+        </nav>
+    </header>
     <div>
         @RenderBody()
     </div>

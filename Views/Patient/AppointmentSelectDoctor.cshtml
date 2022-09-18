@@ -1,11 +1,18 @@
 ﻿@model HospitalClient.Models.AppointmentBooking
 
 @{
+        Layout="~/Views/Shared/PatientLayout.cshtml";
+
     ViewData["Title"] = "AppointmentSelectDoctor";
 }
-
 <h4>AppointmentBooking</h4>
 <hr />
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AppointmentSelectDoctor">
@@ -44,9 +51,9 @@
             </div>
                 
               
-              <div class="form-group">
+              <div id="appointment" class="form-group" >
                 <label asp-for="AppointmentTime" class="control-label"></label>
-                <select asp-for="AppointmentTime" class ="form-control" asp-items="ViewBag.item"></select>
+                <select asp-for="AppointmentTime"  class ="form-control" asp-items="ViewBag.item"></select>
               </div>
                 
            
@@ -62,7 +69,7 @@
                 <span asp-validation-for="PatientId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Book Appointment" class="btn btn-primary" />
+                <input id="del" type="submit"  value="Book Appointment" class="btn btn-primary" />
             </div>
           }
         </form>
@@ -86,7 +93,15 @@ document.getElementById("demo").setAttribute('min', minDate);
 console.log(minDate);
 
 </script> 
-
+       
+  @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                toastr.Error('@ViewBag.Message', '', { positionClass: 'toast-top-center' });
+            });
+        </script>
+    }
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
