@@ -1,57 +1,204 @@
 ﻿@model HospitalClient.Models.AppointmentBooking
 
 @{
-        Layout="~/Views/Shared/PatientLayout.cshtml";
+        Layout=null;
 
     ViewData["Title"] = "AppointmentSelectDoctor";
 }
-<h4>AppointmentBooking</h4>
-<hr />
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AppointmentSelectDoctor">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           @if(ViewBag.item==null)
-            {
-                <h1>Select Doctor</h1>
-                <hr />
+<style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-size: cover;
+  font-family: sans-serif;
+}
+.login-wrapper {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  padding: 80px 40px 40px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+}
+.form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  transform: skewX(-26deg);
+  transform-origin: bottom left;
+  border-radius: 10px;
+  pointer-events: none;
+}
+.form img {
+  position: absolute;
+  top: -50px;
+  left: calc(50% - 50px);
+  width: 100px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+}
+.form h2 {
+  text-align: center;
+  letter-spacing: 1px;
+  margin-bottom: 2rem;
+  color: white;
+}
+.form .input-group {
+  position: relative;
+}
+.form .input-group input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background-color: transparent;
+  color: inherit;
+}
+.form .input-group label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: 0.3s ease-out;
+}
+.form .input-group input:focus + label,
+.form .input-group input:valid + label {
+  transform: translateY(-18px);
+  color: white;
+  font-size: 0.8rem;
+}
+.submit-btn {
+  display: block;
+  margin-left: auto;
+  border: none;
+  outline: none;
+  background: #ff652f;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.forgot-pw {
+  color: inherit;
+}
 
-             <div class="form-group">
-                <label asp-for="DoctorName" class="control-label"></label>
-                                 <select asp-for="DoctorId" class ="form-control" asp-items="ViewBag.DoctorList">
+#forgot-pw {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  z-index: 1;
+  background: #fff;
+  opacity: 0;
+  transition: 0.6s;
+}
+#forgot-pw:target {
+  height: 100%;
+  opacity: 1;
+}
+.close {
+  position: absolute;
+  right: 1.5rem;
+  top: 0.5rem;
+  font-size: 2rem;
+  font-weight: 900;
+  text-decoration: none;
+  color: inherit;
+}
+body {
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWtsnzhHlGWhQC8mDduhhwco0CL9EOTa6dLg&usqp=CAU');
+}
+</style>
+
+<head>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Login</title>
+  </head>
+  <body>
+    <div class="login-wrapper">
+      <form asp-action="AppointmentSelectDoctor" class="form">
+          @if(ViewBag.item==null)
+            {
+             <h2 style="font-size:xx-large">Select Doctor</h2>
+            <div class="form-group">
+                <label asp-for="DoctorName" class="control-label" style="font-size:large; font-style:inherit"></label>
+                                 <select asp-for="DoctorId" class ="form-control"  asp-items="ViewBag.DoctorList">
                                      <option style="color:black">Select Doctor </option> 
 
                                  </select>
              </div>
+           <br />
+           <div class="form-group" >
+
+                <label asp-for="AppointmentDate" class="control-label" style="font-size:large"></label>
+                <input type="date" id="demo" asp-for="AppointmentDate" class="form-control"  />
+                <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+            </div>
+            <br />
              <div class="form-group">
-                <input type="submit"  value="Show Available Slots" class="btn btn-primary" />
+                <input type="submit"  value="Show Available Slots" class="submit-btn" />
                       
                 </div>
             }
-        else
-          {
-              <h2>Appointment Booking - Select Slot</h2>
+            else
+            {
+                
+           <h2>Appointment Booking - Select Slot</h2>
              <hr />   
+             <br />
             <div class="form-group" hidden>
                 <label asp-for="AppointmentId" class="control-label"></label>
                 <input asp-for="AppointmentId" class="form-control" />
                 <span asp-validation-for="AppointmentId" class="text-danger"></span>
             </div>
-            <div class="form-group" >
-
-                <label asp-for="AppointmentDate" class="control-label"></label>
-                <input type="date" id="demo" asp-for="AppointmentDate" class="form-control"  />
-                <span asp-validation-for="AppointmentDate" class="text-danger"></span>
-            </div>
+            
+            
                 
-              
-              <div id="appointment" class="form-group" >
+              <br />
+              <div id="appointment" class="form-group" style="font-size:large" >
                 <label asp-for="AppointmentTime" class="control-label"></label>
                 <select asp-for="AppointmentTime"  class ="form-control" asp-items="ViewBag.item"></select>
               </div>
@@ -68,13 +215,22 @@
                 <input asp-for="PatientId" class="form-control" />
                 <span asp-validation-for="PatientId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input id="del" type="submit"  value="Book Appointment" class="btn btn-primary" />
-            </div>
-          }
-        </form>
+            <br />
+          <div>
+               <input id="del" type="submit" value="Book Appointment" class="submit-btn" />
+          </div>
+            }
+           
+      </form>
     </div>
-</div>
+  </body>
+</html>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
 <script>
 var date = new Date();
 var tdate = date.getDate();
@@ -102,6 +258,4 @@ console.log(minDate);
             });
         </script>
     }
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+

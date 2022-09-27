@@ -1,64 +1,215 @@
 ﻿@model HospitalClient.Models.PatientRegistration
 
 @{
-        Layout="~/Views/Shared/PatientLayout.cshtml";
+        Layout=null;
 
     ViewData["Title"] = "PatientRegister";
 }
 
-<h1>Patient Registration</h1>
+<style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-size: cover;
+  font-family: sans-serif;
+}
+.login-wrapper {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  padding: 80px 40px 40px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+}
+.form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  transform: skewX(-26deg);
+  transform-origin: bottom left;
+  border-radius: 10px;
+  pointer-events: none;
+}
+.form img {
+  position: absolute;
+  top: -50px;
+  left: calc(50% - 50px);
+  width: 100px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+}
+.form h2 {
+  text-align: center;
+  letter-spacing: 1px;
+  margin-bottom: 2rem;
+  color: white;
+}
+.form .input-group {
+  position: relative;
+}
+.form .input-group input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background-color: transparent;
+  color: inherit;
+}
+.form .input-group label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: 0.3s ease-out;
+}
+.form .input-group input:focus + label,
+.form .input-group input:valid + label {
+  transform: translateY(-18px);
+  color: white;
+  font-size: 0.8rem;
+}
+.submit-btn {
+  display: block;
+  margin-left: auto;
+  border: none;
+  outline: none;
+  background: #ff652f;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.forgot-pw {
+  color: inherit;
+}
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="PatientRegister">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PatientId" class="control-label"></label>
-                <input asp-for="PatientId" class="form-control" />
-                <span asp-validation-for="PatientId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PatientName" class="control-label"></label>
-                <input asp-for="PatientName" class="form-control" />
-                <span asp-validation-for="PatientName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Age" class="control-label"></label>
-                <input asp-for="Age" class="form-control" />
-                <span asp-validation-for="Age" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <input asp-for="Gender" class="form-control" />
-                <span asp-validation-for="Gender" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword" class="control-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Register" class="btn btn-primary" />
-            </div>
-        </form>
+#forgot-pw {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  z-index: 1;
+  background: #fff;
+  opacity: 0;
+  transition: 0.6s;
+}
+#forgot-pw:target {
+  height: 100%;
+  opacity: 1;
+}
+.close {
+  position: absolute;
+  right: 1.5rem;
+  top: 0.5rem;
+  font-size: 2rem;
+  font-weight: 900;
+  text-decoration: none;
+  color: inherit;
+}
+body {
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWtsnzhHlGWhQC8mDduhhwco0CL9EOTa6dLg&usqp=CAU');
+}
+</style>
+
+
+
+<head>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Patient Registration</title>
+  </head>
+  <body>
+    <div class="login-wrapper">
+      <form asp-action="PatientRegister" class="form">
+        <h2>Patient Registration</h2>
+        <div class="input-group">
+          <input type="text" name="PatientId" id="PatientId" required />
+          <label for="PatientId">Patient Email</label>
+        </div>
+        <div class="input-group">
+          <input type="text" name="PatientName" id="PatientName" required />
+          <label for="PatientName">Patient Name</label>
+        </div>
+        <div class="input-group">
+          <input type="text" name="Age" id="Age" required />
+          <label for="Age">Age</label>
+        </div>
+        <div class="input-group">
+          <input type="text" name="Gender" id="Gender" required />
+          <label for="Gender">Gender</label>
+        </div>
+        
+        <div class="input-group">
+          <input type="text" name="PhoneNumber" id="PhoneNumber" required />
+          <label for="PhoneNumber">PhoneNumber</label>
+        </div>
+        <div class="input-group">
+          <input type="text" name="Address" id="Address" required />
+          <label for="Address">Address</label>
+        </div>
+
+        <div class="input-group">
+          <input
+            type="password"
+            name="Password"
+            id="Password"
+            required
+          />
+          <label for="ConfirmPassword">Password</label>
+        </div>
+        <div class="input-group">
+          <input
+            type="password"
+            name="ConfirmPassword"
+            id="ConfirmPassword"
+            required
+          />
+          <label for="ConfirmPassword">ConfirmPassword</label>
+        </div>
+        <input type="submit" value="Register" class="submit-btn" />
+      </form>
     </div>
-</div>
+  </body>
+</html>
+
+
+
 
 
 

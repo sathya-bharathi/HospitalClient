@@ -20,13 +20,14 @@ namespace HospitalClient.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(DoctorRegistration doctor)
         {
+            doctor.DoctorName = "";
             using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(doctor), Encoding.UTF8, "application/json");
                 using (var response = await httpClient.PostAsync("https://localhost:7094/api/Doctor/Login", content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    doctor = JsonConvert.DeserializeObject<DoctorRegistration>(apiResponse);
+                    //doctor = JsonConvert.DeserializeObject<DoctorRegistration>(apiResponse);
                 }
             }
             if (doctor != null)

@@ -160,6 +160,7 @@ body {
           <input type="text" name="PatientId" id="PatientId" required />
           <label for="PatientId">Patient Email</label>
         </div>
+        
         <div class="input-group">
           <input
             type="password"
@@ -169,7 +170,10 @@ body {
           />
           <label for="Password">Password</label>
         </div>
+       
         <input type="submit" value="Login" class="submit-btn" />
+        <p>New User?<button type="button"><a  asp-controller="Patient" asp-action="PatientRegister">Register!</a></button>
+</p>
       </form>
     </div>
   </body>

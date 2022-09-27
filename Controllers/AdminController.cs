@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net.Http.Headers;
 using System.Net.Mail;
 using System.Net;
+using static HospitalClient.Controllers.HomeController;
 
 namespace HospitalClient.Controllers
 {
@@ -30,7 +31,7 @@ namespace HospitalClient.Controllers
                 using (var response = await httpClient.PostAsync("https://localhost:7094/api/Admin/Login", content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    admin = JsonConvert.DeserializeObject<Admin>(apiResponse);
+                    //admin = JsonConvert.DeserializeObject<Admin>(apiResponse);
                 }
                 if (admin != null)
                 {
@@ -53,6 +54,7 @@ namespace HospitalClient.Controllers
             TempData["Success"] = "Logged out!";
             return RedirectToAction("Login", "Admin");
         }
+        [NoDirectAccess]
         public async Task<IActionResult> DoctorRegister()
         {
             List<Specialization> specialization = new List<Specialization>();
@@ -72,6 +74,7 @@ namespace HospitalClient.Controllers
             return View();
         }
         [HttpPost]
+   
         public async Task<IActionResult> DoctorRegister(DoctorRegistration doctor)
 
         {
@@ -117,6 +120,7 @@ namespace HospitalClient.Controllers
 
             return RedirectToAction("Index", "Admin");
         }
+        [NoDirectAccess]
         public async Task<IActionResult> DoctorDetails()
 
         {
@@ -141,6 +145,7 @@ namespace HospitalClient.Controllers
                 return View(DoctorDetails);
             }
         }
+        [NoDirectAccess]
         [HttpGet]
         public async Task<IActionResult> EditDoctor(string DoctorId)
         {
@@ -187,6 +192,7 @@ namespace HospitalClient.Controllers
             }
             return RedirectToAction("DoctorDetails");
         }
+        [NoDirectAccess]
         [HttpGet]
         public async Task<IActionResult> DeleteDoctor(string DoctorId)
         {
@@ -216,6 +222,7 @@ namespace HospitalClient.Controllers
             }
             return RedirectToAction("DoctorDetails");
         }
+        [NoDirectAccess]
         public async Task<IActionResult> AppointmentDetails()
 
         {
@@ -240,7 +247,8 @@ namespace HospitalClient.Controllers
                 return View(AppointmentDetails);
             }
         }
-            public async Task<IActionResult> PatientDetails()
+        [NoDirectAccess]
+        public async Task<IActionResult> PatientDetails()
 
             {
                 List<PatientRegistration> PatientDetail = new List<PatientRegistration>();

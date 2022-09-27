@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using HospitalClient.Models;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using static HospitalClient.Controllers.HomeController;
 
 namespace HospitalClient.Controllers
 {
@@ -57,6 +58,7 @@ namespace HospitalClient.Controllers
                 return View(Specializationdetails);
             }
         }
+        [NoDirectAccess]
         public IActionResult AddSpecialization()
         {
             return View();
@@ -78,6 +80,7 @@ namespace HospitalClient.Controllers
             }
             return RedirectToAction("SpecializationDetails");
         }
+        [NoDirectAccess]
         [HttpGet]
         public async Task<IActionResult> EditSpecialization(int SpecializationId)
         {
@@ -111,6 +114,7 @@ namespace HospitalClient.Controllers
             }
             return RedirectToAction("SpecializationDetails");
         }
+        [NoDirectAccess]
         [HttpGet]
         public async Task<IActionResult> DeleteSpecialization(int SpecializationId)
         {
